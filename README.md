@@ -4,9 +4,21 @@ ChatGPT-powered spec reviewer for the Dino engineering team. Lives in `#dev-dino
 
 ## What It Does
 
-- **Spec review**: Post `review: <spec content>` in `#dev-dino` — ChatGPT reviews against Dino's engineering standards
+### 3-Round Dual-LLM Spec Review
+
+Two LLMs review every spec to prevent tunnel vision from a single model:
+
+| Round | Reviewer | Trigger |
+| --- | --- | --- |
+| 1 | Claude Code (CTO) | Self-review before posting to Slack |
+| 2 | ChatGPT | `review: <spec>` in `#dev-dino` |
+| 3 | ChatGPT | `review-round-3: <updated spec>` in thread (if Round 2 had findings) |
+
+**Approval requires dual-LLM consensus** — both Claude Code AND ChatGPT must agree. Approved specs are auto-forwarded to `#cursor-tasks` for implementation.
+
+### Other Features
+
 - **Dev questions**: `@Dino Bot <question>` — answers architecture, code, and workflow questions
-- **Auto-forward**: Approved specs are automatically posted to `#cursor-tasks` for implementation
 
 ## Setup
 
@@ -31,7 +43,8 @@ The bot enforces Dino's engineering standards:
 - 22 hard constraints (HC #13, #18-#22)
 - SonarCloud-clean code requirements
 - Test category requirements (unit, integration, failure-mode, false-output, regression)
-- One-round review — findings are BLOCKING or SUGGESTION
+- 3-round dual-LLM consensus (Claude Code + ChatGPT)
+- Findings are BLOCKING or SUGGESTION
 
 ## Architecture
 
